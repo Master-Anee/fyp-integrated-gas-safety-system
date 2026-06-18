@@ -47,7 +47,7 @@ The **Integrated Gas Safety and Environmental Monitoring System** is a two-node 
 The system is divided into two smart nodes:
 
 - **ESP1 (Kitchen Node)**: monitors the kitchen-side environment.
-- <img width="3024" height="4032" alt="Kitchen_Node_Pic" src="https://github.com/user-attachments/assets/de1b3c77-d320-44aa-8695-354722ed2cdf" />
+<img width="3024" height="4032" alt="Kitchen_Node_Pic" src="https://github.com/user-attachments/assets/de1b3c77-d320-44aa-8695-354722ed2cdf" />
 
 - **ESP2 (Main Valve Node)**: monitors the valve-side environment, receives data from ESP1, makes safety decisions, and controls the gas valve.
 <img width="3024" height="4032" alt="MainValve_Node_PIC" src="https://github.com/user-attachments/assets/1aee6b76-3eb7-49c4-a526-6d04f290870d" />
