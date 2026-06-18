@@ -328,6 +328,14 @@ ESP2 uses a 16×2 I2C LCD to show live values locally.
 - valve state
 - battery values
 
+<img width="4032" height="3024" alt="LCD-Dashboard_IP_Address" src="https://github.com/user-attachments/assets/274f2b90-3d18-436b-94b9-82b69d159b98" />
+<img width="4032" height="3024" alt="LCD_ValveStatus" src="https://github.com/user-attachments/assets/39364cb7-3147-4126-b61d-4301a8378ff4" />
+<img width="4032" height="3024" alt="LCD_humidity_pressure _Values" src="https://github.com/user-attachments/assets/d6fab3c1-9e10-49ec-a873-19805d4fc246" />
+<img width="4032" height="3024" alt="LCD_gas_values" src="https://github.com/user-attachments/assets/a3ef515f-bf89-4c2f-bbc0-5aad6041c98b" />
+<img width="4032" height="3024" alt="LCD_Battery_temperature" src="https://github.com/user-attachments/assets/fec9a6b5-8239-4e1b-8489-8f808fec07ac" />
+
+
+
 ### Web Dashboard
 ESP2 hosts a browser-based dashboard that shows:
 
@@ -342,8 +350,16 @@ ESP2 hosts a browser-based dashboard that shows:
 - system state
 - communication status
 
+<img width="1280" height="686" alt="Both_Dashoboard" src="https://github.com/user-attachments/assets/9ff24fb8-b14f-48f2-9b57-9183ecd0f38b" />
+
+
+
 ### Blynk
 Blynk is used for mobile monitoring and quick remote access.
+
+<img width="1280" height="720" alt="Blynk_app" src="https://github.com/user-attachments/assets/ae040a8e-b123-4c8b-94a9-fd5e05b2e108" />
+
+
 
 ### ThingSpeak
 ThingSpeak is used for:
@@ -351,6 +367,9 @@ ThingSpeak is used for:
 - sensor charts
 - trend analysis
 - data logging
+
+<img width="687" height="776" alt="ThingSpeak" src="https://github.com/user-attachments/assets/9218edc0-150a-4ce1-a191-6b9343ef1b73" />
+
 
 ---
 
@@ -380,6 +399,9 @@ This project includes a significant amount of testing and calibration.
 - pressure sensor tuning
 - threshold refinement
 
+<img width="4160" height="3033" alt="MQ4_reading_Graph" src="https://github.com/user-attachments/assets/057daed2-563c-4227-b0e1-dfd75a9efebc" />
+
+
 ### Testing includes:
 - ESP-NOW transmission test
 - sensor response test
@@ -392,8 +414,8 @@ This project includes a significant amount of testing and calibration.
 
 Testing is essential because this is not just a display project; it is a functional safety system.
 
----
 
+---
 ## Google Drive Folder Structure
 
 All project media is stored in Google Drive under the main folder:
