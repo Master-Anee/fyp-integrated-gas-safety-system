@@ -1,4 +1,5 @@
 # Integrated Gas Safety and Environmental Monitoring System
+<img width="4345" height="3178" alt="2025_06_18_16_52_IMG_2053" src="https://github.com/user-attachments/assets/663a981b-60ce-458b-b437-4f604f0eec4e" />
 
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 ![Platform](https://img.shields.io/badge/Platform-ESP8266-blue)
@@ -46,7 +47,10 @@ The **Integrated Gas Safety and Environmental Monitoring System** is a two-node 
 The system is divided into two smart nodes:
 
 - **ESP1 (Kitchen Node)**: monitors the kitchen-side environment.
+- <img width="3024" height="4032" alt="Kitchen_Node_Pic" src="https://github.com/user-attachments/assets/de1b3c77-d320-44aa-8695-354722ed2cdf" />
+
 - **ESP2 (Main Valve Node)**: monitors the valve-side environment, receives data from ESP1, makes safety decisions, and controls the gas valve.
+<img width="3024" height="4032" alt="MainValve_Node_PIC" src="https://github.com/user-attachments/assets/1aee6b76-3eb7-49c4-a526-6d04f290870d" />
 
 These two nodes communicate using **ESP-NOW**, which provides fast and reliable local wireless communication without needing a central server between them.
 
