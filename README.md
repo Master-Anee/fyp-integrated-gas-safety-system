@@ -1,344 +1,278 @@
 # Integrated Gas Safety and Environmental Monitoring System
-<img width="4345" height="3178" alt="2025_06_18_16_52_IMG_2053" src="https://github.com/user-attachments/assets/663a981b-60ce-458b-b437-4f604f0eec4e" />
+<img width="4345" height="3178" alt="2025_06_18_16_52_IMG_2053" src="https://github.com/user-attachments/assets/e2fd704e-63b1-431f-a812-db3a1fab0346" />
 
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 ![Platform](https://img.shields.io/badge/Platform-ESP8266-blue)
 ![Communication](https://img.shields.io/badge/Communication-ESP--NOW-orange)
 ![IoT](https://img.shields.io/badge/IoT-Blynk%20%7C%20ThingSpeak-green)
-![License](https://img.shields.io/badge/Use-Educational%20Project-lightgrey)
+![Project](https://img.shields.io/badge/Project-Final%20Year%20Project-purple)
+
+A Final Year Project built around **two ESP8266 nodes** for **gas safety**, **environment monitoring**, **remote visualization**, and **automatic valve control**.
 
 ---
 
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Problem Statement](#problem-statement)
-- [Project Title](#project-title)
-- [Project Objectives](#project-objectives)
-- [System Summary](#system-summary)
-- [Main Features](#main-features)
-- [Hardware Architecture](#hardware-architecture)
-- [Software Architecture](#software-architecture)
-- [Communication Flow](#communication-flow)
-- [Control and Safety Logic](#control-and-safety-logic)
-- [Data Structures Used](#data-structures-used)
-- [Sensors and Their Purpose](#sensors-and-their-purpose)
+- [Project Goal](#project-goal)
+- [System Highlights](#system-highlights)
+- [System Architecture](#system-architecture)
+- [Hardware Used](#hardware-used)
+- [How the System Works](#how-the-system-works)
+- [Communication Design](#communication-design)
+- [Control Logic](#control-logic)
+- [Data Structures](#data-structures)
+- [Sensor Details](#sensor-details)
 - [Multiplexer Use](#multiplexer-use)
-- [Web Dashboard](#web-dashboard)
-- [Blynk and ThingSpeak Integration](#blynk-and-thingspeak-integration)
-- [LCD Display Pages](#lcd-display-pages)
-- [Configuration Storage with LittleFS](#configuration-storage-with-littlefs)
-- [Project Folders and Media](#project-folders-and-media)
-- [Hardware List](#hardware-list)
-- [Code Files](#code-files)
+- [Display and Dashboard](#display-and-dashboard)
+- [Configuration Storage](#configuration-storage)
 - [Testing and Calibration](#testing-and-calibration)
+- [Google Drive Folder Structure](#google-drive-folder-structure)
+- [Repository Folder Structure](#repository-folder-structure)
+- [Project Media](#project-media)
 - [Results](#results)
 - [Future Improvements](#future-improvements)
 - [Conclusion](#conclusion)
-- [Project Media Links](#project-media-links)
-- [Author](#author)
+- [Author Information](#author-information)
+- [Project Supervisor](#project-supervisor)
+- [Academic Reference](#academic-reference)
+- [License](#license)
 
 ---
 
 ## Project Overview
 
-The **Integrated Gas Safety and Environmental Monitoring System** is a two-node IoT-based safety and monitoring solution built using **ESP8266** microcontrollers. The project is designed to monitor gas leakage and environmental conditions in real time, while also providing automatic safety action when dangerous conditions are detected.
+The **Integrated Gas Safety and Environmental Monitoring System** is a two-node IoT-based safety solution developed as a **Final Year Project (FYP)**. It is designed to monitor gas leakage, environmental conditions, battery health, and gas line pressure, while also providing automatic safety response when dangerous conditions are detected.
 
-The system is divided into two smart nodes:
+The system is built using **two ESP8266 boards**:
 
-- **ESP1 (Kitchen Node)**: monitors the kitchen-side environment.
-<img width="3024" height="4032" alt="Kitchen_Node_Pic" src="https://github.com/user-attachments/assets/de1b3c77-d320-44aa-8695-354722ed2cdf" />
+- **ESP1 (Kitchen Node):** monitors kitchen-side gas, temperature, humidity, and battery status.
 
-- **ESP2 (Main Valve Node)**: monitors the valve-side environment, receives data from ESP1, makes safety decisions, and controls the gas valve.
-<img width="3024" height="4032" alt="MainValve_Node_PIC" src="https://github.com/user-attachments/assets/1aee6b76-3eb7-49c4-a526-6d04f290870d" />
+<img width="3024" height="4032" alt="Kitchen_Node_Pic" src="https://github.com/user-attachments/assets/118e8b54-6f3a-440f-9df5-51d46d4a9d17" />
 
-These two nodes communicate using **ESP-NOW**, which provides fast and reliable local wireless communication without needing a central server between them.
 
-The project also includes:
+  
+- **ESP2 (Main Valve Node):** monitors valve-side gas, temperature, humidity, pressure, and battery levels, while also receiving ESP1 data and controlling the gas valve.
 
-- **LCD display** for local monitoring
-- **Web dashboard** for browser-based monitoring
-- **Blynk** for mobile monitoring
-- **ThingSpeak** for cloud-based data visualization
-- **LittleFS** for storing Wi-Fi and Blynk credentials permanently
-- **Relay-based automatic valve control**
-- **Alarm LED** for warning indication
+<img width="3024" height="4032" alt="MainValve_Node_PIC" src="https://github.com/user-attachments/assets/81ec0919-efe9-4c94-bf87-9606875080ee" />
 
-This project is not only a monitoring system. It is also a **real-time safety control system**.
+
+
+The boards communicate using **ESP-NOW**, and both connect to Wi-Fi for **Blynk**, **ThingSpeak**, and a **web dashboard**. ESP2 acts as the main control node and safety decision unit.
+
+<img width="820" height="456" alt="block_diagram_Updated" src="https://github.com/user-attachments/assets/8f19cd5a-c587-4667-8a85-6fad09784922" />
+
 
 ---
 
-## Problem Statement
+## Project Goal
 
-Gas leakage is a serious safety risk in homes, kitchens, and gas-based environments. In many systems, users only receive passive monitoring without automatic response. This project solves that problem by combining:
+The goal of this project is to create a smart embedded safety system that:
 
-- local sensor monitoring,
-- wireless inter-node communication,
-- cloud and mobile dashboards,
-- and automatic valve shutdown.
-
-The goal is to create a system that can:
-
-- detect gas leakage quickly,
-- alert the user immediately,
-- monitor environmental conditions,
-- and take action before the situation becomes dangerous.
+- detects gas leakage in real time,
+- monitors environmental conditions,
+- checks power health through battery sensing,
+- automatically closes the valve during danger,
+- gives local warnings using an alarm LED,
+- shows live data on LCD and dashboards,
+- stores configuration securely in LittleFS,
+- and allows remote monitoring through mobile and browser interfaces.
 
 ---
 
-## Project Title
+## System Highlights
 
-**Final Year Project: Integrated Gas Safety and Environmental Monitoring System**
-
----
-
-## Project Objectives
-
-The main objectives of this project are:
-
-1. Detect gas leakage at two different points of the system.
-2. Monitor temperature and humidity in both nodes.
-3. Measure pressure on the valve-side node.
-4. Monitor battery health for reliability.
-5. Provide automatic valve control during unsafe gas conditions.
-6. Send data between two ESP8266 boards using ESP-NOW.
-7. Display live data on LCD, web dashboard, Blynk, and ThingSpeak.
-8. Store configuration data using LittleFS so it survives power loss.
-9. Build a complete IoT-based smart safety platform.
+- Dual-node ESP8266 architecture
+- ESP-NOW communication between nodes
+- Automatic gas valve shutdown
+- Alarm LED for immediate warning
+- Live 16×2 I2C LCD display
+- Web dashboard for browser monitoring
+- Blynk for mobile monitoring
+- ThingSpeak for cloud charts and logging
+- LittleFS for saving Wi-Fi and Blynk credentials
+- Gas, temperature, humidity, pressure, and battery monitoring
+- Calibration and testing support
+- Professional modular project structure
 
 ---
 
-## System Summary
-
-This project uses two ESP8266 boards:
+## System Architecture
 
 ### ESP1 — Kitchen Node
-ESP1 is responsible for reading local kitchen data:
 
-- gas level
-- temperature
-- humidity
-- battery percentage
+ESP1 is responsible for the kitchen-side monitoring.
 
-It sends this data to ESP2 using ESP-NOW.
+#### ESP1 reads:
+- Kitchen gas level
+- Temperature
+- Humidity
+- Battery percentage
+
+#### ESP1 sends:
+- Sensor readings to ESP2 through ESP-NOW
+
+#### ESP1 also:
+- connects to Wi-Fi,
+- updates Blynk,
+- stores credentials in LittleFS,
+- and prints debugging information on Serial Monitor.
+
+---
 
 ### ESP2 — Main Valve Node
-ESP2 is the central unit and safety controller. It:
 
-- receives kitchen data from ESP1,
-- reads its own gas, temperature, humidity, pressure, and batteries,
-- checks whether gas levels are safe,
-- closes the valve if necessary,
-- activates the alarm LED,
-- updates the LCD,
-- serves the web dashboard,
-- and sends selected values to Blynk and ThingSpeak.
+ESP2 is the central safety controller.
 
----
+#### ESP2 reads:
+- Local gas level
+- Temperature
+- Humidity
+- Pressure
+- 5V battery
+- 12V battery
 
-## Main Features
+#### ESP2 receives:
+- Kitchen data from ESP1
 
-- Dual-node monitoring architecture
-- Fast local communication using ESP-NOW
-- Automatic gas valve shutdown
-- Real-time alarm LED warning
-- Live LCD display with multiple pages
-- Web dashboard for browser monitoring
-- Blynk integration for phone monitoring
-- ThingSpeak integration for data visualization
-- LittleFS-based credential storage
-- Battery monitoring for safety and reliability
-- Sensor calibration and testing support
-- Modular design for code and hardware expansion
+#### ESP2 controls:
+- gas valve relay
+- alarm LED
+- LCD pages
+- web dashboard
+- Blynk updates
+- ThingSpeak updates
+
+ESP2 compares gas levels from both nodes and decides whether the valve should remain open or close for safety.
 
 ---
 
-## Hardware Architecture
+## Hardware Used
 
-The system is divided into two main hardware sections.
-
-### 1) ESP1 — Kitchen Node
-
-#### Hardware used
-- ESP8266
-- DHT11 sensor
-- MQ-4 gas sensor
-- CD4051 multiplexer
-- Battery sensing circuit
-- Status LED
-- Wi-Fi connection
-- ESP-NOW transmitter
-- Blynk client
-- LittleFS storage
-
-#### Main role
-ESP1 monitors the kitchen environment and transmits data to ESP2.
-
-#### Values measured by ESP1
-- `gas1`
-- `temp1`
-- `hum1`
-- `batt1`
+| Component | Quantity | Purpose |
+|---|---:|---|
+| ESP8266 | 2 | Main controllers |
+| MQ-4 Gas Sensor | 2 | Gas detection |
+| DHT11 Sensor | 2 | Temperature and humidity |
+| CD4051 Multiplexer | 2 | Multiple analog channel selection |
+| Pressure Sensor | 1 | Gas line pressure monitoring |
+| Relay Module | 1 | Valve control |
+| Alarm LED | 1 | Local warning indicator |
+| 16×2 I2C LCD | 1 | Local status display |
+| Battery Monitoring Circuits | 3 | Power health monitoring |
+| Wi-Fi Router | 1 | Network connectivity |
 
 ---
 
-### 2) ESP2 — Main Valve Node
+## How the System Works
 
-#### Hardware used
-- ESP8266
-- DHT11 sensor
-- MQ-4 gas sensor
-- Pressure sensor
-- CD4051 multiplexer
-- 5V battery sensing circuit
-- 12V battery sensing circuit
-- Relay module
-- Alarm LED
-- 16×2 I2C LCD
-- Wi-Fi connection
-- ESP-NOW receiver
-- Blynk client
-- Web server
-- LittleFS storage
-
-#### Main role
-ESP2 is the main decision-making unit. It receives kitchen data, reads local sensors, controls the valve, and updates all interfaces.
-
-#### Values measured by ESP2
-- `gas2`
-- `temp2`
-- `hum2`
-- `pressure`
-- `batt5`
-- `batt12`
+1. Power is applied to both ESP8266 nodes.
+2. Both boards load saved Wi-Fi and Blynk credentials from LittleFS.
+3. Both nodes connect to Wi-Fi.
+4. ESP1 reads kitchen gas, temperature, humidity, and battery level.
+5. ESP1 sends its readings to ESP2 using ESP-NOW.
+6. ESP2 reads its own gas, pressure, temperature, humidity, and battery values.
+7. ESP2 combines both local and remote readings.
+8. ESP2 compares gas values with safety thresholds.
+9. If unsafe gas is detected, ESP2 closes the valve using a relay.
+10. Alarm LED activates to provide local warning.
+11. LCD, web dashboard, Blynk, and ThingSpeak all update in real time.
+12. The system continues monitoring in a continuous loop.
 
 ---
 
-## Software Architecture
+## Communication Design
 
-The software is designed as a full IoT stack:
+This project uses **two communication methods**:
 
-### ESP1 software responsibilities
-- initialize Wi-Fi and ESP-NOW
-- load credentials from LittleFS
-- read local sensors
-- convert analog readings to useful values
-- fill the data message structure
-- send the data packet to ESP2
-- update Blynk values
-- print serial debug information
-- monitor communication timeout
+### 1) ESP-NOW
+ESP-NOW is used for direct communication between ESP1 and ESP2.
 
-### ESP2 software responsibilities
-- initialize Wi-Fi, LCD, Blynk, LittleFS, and ESP-NOW
-- receive kitchen values from ESP1
-- read local sensor values
-- apply safety thresholds
-- control the relay and alarm LED
-- update LCD pages
-- serve the web dashboard
-- provide JSON data endpoint
-- update Blynk and ThingSpeak
-- print all system data to Serial Monitor
-
----
-
-## Communication Flow
-
-The system uses two communication layers:
-
-### A) ESP-NOW between ESP1 and ESP2
-ESP-NOW is used for direct board-to-board data transfer.
-
-Why ESP-NOW is useful here:
+#### Why ESP-NOW is used:
 - fast
 - low latency
-- does not require internet for node-to-node communication
-- reliable for local wireless exchange
-- ideal for safety-related applications
+- does not require internet between nodes
+- reliable for board-to-board communication
+- well suited for safety-critical data exchange
 
-### B) Wi-Fi to Router
-Both boards also connect to Wi-Fi so they can access:
-- Blynk
-- ThingSpeak
-- web dashboard
+ESP1 sends kitchen readings to ESP2 continuously.
+
+### 2) Wi-Fi
+Both ESP boards connect to Wi-Fi for:
+- Blynk cloud access
+- ThingSpeak access
+- web dashboard access
 - IP-based monitoring
-- cloud features
+- remote viewing and debugging
 
 ---
 
-## Control and Safety Logic
+## Control Logic
 
-The core of the project is the safety logic inside ESP2.
+The safety logic is implemented inside **ESP2**.
 
-ESP2 continuously checks:
-- kitchen gas value (`remoteData.gas1`)
-- local gas value (`gas2`)
+ESP2 checks:
+- `remoteData.gas1` from ESP1
+- `gas2` from its own local sensor
 
-### Safe condition
-If both values are inside the safe range:
+### Safe Condition
+If both readings are below the threshold:
 - valve remains open
-- alarm LED stays off
+- alarm remains off
 - dashboard shows safe status
 
-### Unsafe condition
-If either gas sensor exceeds the threshold:
-- relay changes state to close the valve
-- alarm LED activates
+### Unsafe Condition
+If either gas reading crosses the threshold:
+- relay changes state
+- valve closes
+- alarm LED turns on
 - warning appears on LCD
-- web dashboard updates
-- Blynk and ThingSpeak are refreshed
+- dashboard updates immediately
+- Blynk and ThingSpeak reflect the unsafe condition
 
-This makes the system a **smart automatic gas protection system**, not just a monitoring system.
+This makes the system a **monitoring + protection** system rather than only a monitoring system.
 
 ---
 
-## Data Structures Used
+## Data Structures
 
-The project uses a simple and clear message design.
+The communication between nodes uses structured packets.
 
 ### `MsgData`
-This structure contains sensor and state data.
+Contains sensor and status values:
 
-Fields:
 - `gas1`
 - `temp1`
 - `hum1`
 - `batt1`
 - `valve1`
 
-ESP1 fills this structure and sends it to ESP2.
+ESP1 fills this packet and sends it to ESP2.
 
 ### `MsgConfig`
-This structure carries configuration settings.
+Contains configuration values:
 
-Fields:
 - `ssid`
 - `pass`
 - `blynkAuth`
 
 ### `MsgAny`
-This is the wrapper message that identifies the packet type.
+This is the wrapper message type used to identify the packet category:
 
-Fields:
-- `type`
-- data payload
+- sensor data packet
+- configuration packet
 
-The packet type tells the receiver whether the packet contains:
-- sensor data
-- configuration data
-
-This keeps communication organized and extensible.
+This helps both boards understand what type of message is being transmitted.
 
 ---
 
-## Sensors and Their Purpose
+## Sensor Details
 
 ### Gas Sensor on ESP1
-Used to detect gas leakage near the kitchen source.
+Used to detect kitchen-side gas leakage.
 
 ### Gas Sensor on ESP2
-Used to detect gas leakage near the valve or outside side.
+Used to detect valve-side or external gas leakage.
 
 ### DHT11 on ESP1
 Measures:
@@ -351,331 +285,163 @@ Measures:
 - humidity
 
 ### Pressure Sensor on ESP2
-Monitors gas line pressure and helps identify abnormal pressure behavior.
+Monitors gas pressure near the valve side.
 
 ### Battery Sensors
-Used to monitor system power health:
+Used to monitor:
 - ESP1 battery
 - ESP2 5V battery
 - ESP2 12V battery
 
-Battery monitoring is important because if the supply becomes weak, the sensors, relay, Wi-Fi, and alarm may not work correctly.
+Battery monitoring is important because this is a safety-critical system. If power becomes weak, communication or actuation can fail.
 
 ---
 
 ## Multiplexer Use
 
-ESP8266 has only one analog input pin: **A0**.
+ESP8266 has only **one analog input pin (A0)**, but this project needs multiple analog readings. That is why the **CD4051 multiplexer** is used.
 
-Because the project needs multiple analog readings, the **CD4051 multiplexer** is used.
+### ESP1 Multiplexer Channels
+- Channel 0 → gas sensor
+- Channel 1 → battery sensing
 
-### Why the multiplexer is needed
-It allows the ESP8266 to read multiple analog sensors using a single ADC input.
+### ESP2 Multiplexer Channels
+- Channel 0 → gas sensor
+- Channel 1 → pressure sensor
+- Channel 2 → 5V battery sensing
+- Channel 3 → 12V battery sensing
 
-### ESP1 MUX channels
-- Channel 0: gas sensor
-- Channel 1: battery sensor
-
-### ESP2 MUX channels
-- Channel 0: gas sensor
-- Channel 1: pressure sensor
-- Channel 2: 5V battery
-- Channel 3: 12V battery
-
-This is one of the key design decisions that makes the project compact and practical.
+This design allows the ESP8266 to read multiple sensors using one ADC input.
 
 ---
 
-## Web Dashboard
+## Display and Dashboard
 
-ESP2 hosts a web dashboard that shows the complete state of the system.
+### LCD Display
+ESP2 uses a 16×2 I2C LCD to show live values locally.
 
-### Dashboard displays
-- Kitchen node gas level
-- Kitchen node temperature
-- Kitchen node humidity
-- Kitchen node battery
-- Main valve node gas level
-- Main valve node temperature
-- Main valve node humidity
-- Pressure value
-- Battery values
-- Valve state
-- Alarm status
+#### LCD pages can show:
 - IP address
-- Communication status
+- kitchen and valve-side temperature/humidity
+- gas values from both nodes
+- pressure value
+- valve state
+- battery values
 
-### Dashboard benefits
-- easy to access from browser
-- no special app required
-- useful during testing and demonstration
-- provides complete real-time visibility
+### Web Dashboard
+ESP2 hosts a browser-based dashboard that shows:
 
-ESP2 also exposes a JSON endpoint, which can be used later for:
-- mobile app integration
-- custom tools
-- automation systems
-- data logging systems
-
----
-
-## Blynk and ThingSpeak Integration
+- kitchen node readings
+- valve node readings
+- gas levels
+- temperature
+- humidity
+- pressure
+- valve status
+- battery status
+- system state
+- communication status
 
 ### Blynk
-Blynk is used for mobile monitoring.
-
-It provides:
-- live readings on phone
-- simple remote monitoring
-- warning display
-- convenient access from anywhere
+Blynk is used for mobile monitoring and quick remote access.
 
 ### ThingSpeak
 ThingSpeak is used for:
 - cloud monitoring
+- sensor charts
+- trend analysis
 - data logging
-- charts and graphs
-- sensor trend analysis
-
-These platforms are not the decision-making brain of the system.  
-The decision-making remains inside **ESP2**, which is important for safety.
 
 ---
 
-## LCD Display Pages
+## Configuration Storage
 
-ESP2 uses a 16×2 I2C LCD to show local system information.
-
-### LCD page 0
-- IP address
-- network status
-
-### LCD page 1
-- temperature and humidity from both nodes
-
-### LCD page 2
-- gas readings from both nodes
-
-### LCD page 3
-- pressure
-- valve state
-
-### LCD page 4
-- battery values
-
-The LCD is useful because it gives direct local feedback even if the browser or phone is not available.
-
----
-
-## Configuration Storage with LittleFS
-
-LittleFS is used to store:
+The system uses **LittleFS** to store:
 - Wi-Fi SSID
 - Wi-Fi password
 - Blynk authentication token
 
 ### Why LittleFS is important
-- saves configuration permanently
+- settings remain saved after power off
 - no need to hardcode credentials every time
-- survives power failure
-- useful for updating settings later
-- makes the system more flexible
-
-This is a strong feature because it makes the project more complete and practical.
-
----
-
-## Project Folders and Media
-
-The project media is organized inside the following Google Drive structure:
-
-**Main folder:**  
-`FYP Integrated Gas Safety And Environmental Monitoring System`
-
-### Subfolders
-1. **3D design**
-   - 3D design pictures
-
-2. **circuit Diagrams**
-   - circuit diagram picture
-   - block diagram
-
-3. **ide codes file**
-   - progress 1 code
-   - progress 2 code
-   - progress 3 code
-   - progress 4 code
-   - testing code
-
-4. **sensor readings**
-   - calculations
-   - MQ-4 sensor readings
-   - graphs
-
-5. **testing**
-   - testing 1
-   - testing 2: valve connection to gas
-   - testing 3: dashboard checking
-
-6. **user interface**
-   - LCD display images
-   - ThingSpeak screenshots
-   - Blynk screenshots
-   - personal dashboard screenshots
-
-7. **Videos**
-   - general video
-   - progress 1
-   - progress 2
-   - progress 3
-   - progress 4
-   - testing videos
-
----
-
-## Hardware List
-
-| Component | Purpose |
-|---|---|
-| ESP8266 x2 | Main microcontrollers |
-| MQ-4 Gas Sensors | Gas detection |
-| DHT11 x2 | Temperature and humidity monitoring |
-| CD4051 Multiplexers x2 | Multiple analog channel selection |
-| Pressure Sensor | Gas pressure monitoring |
-| Relay Module | Gas valve switching |
-| Alarm LED | Warning indicator |
-| 16×2 I2C LCD | Local display |
-| Battery Monitoring Circuit | Power health monitoring |
-| Wi-Fi Router | Network connectivity |
-
----
-
-## Code Files
-
-The source code is organized into development stages.
-
-### ESP1 code
-- kitchen node code
-- sensor reading code
-- ESP-NOW send logic
-- Blynk update logic
-- LittleFS config logic
-
-### ESP2 code
-- main valve node code
-- ESP-NOW receiver logic
-- valve control logic
-- LCD display logic
-- dashboard and JSON server logic
-- Blynk and ThingSpeak update logic
-
-### Progress versions
-- progress 1
-- progress 2
-- progress 3
-- progress 4
-
-### Testing code
-- final testing firmware
-- valve integration testing
-- dashboard testing build
+- easier device reconfiguration
+- better portability and maintenance
 
 ---
 
 ## Testing and Calibration
 
-A major part of this project is proper testing and calibration.
+This project includes a significant amount of testing and calibration.
 
-### Sensor calibration includes:
-- MQ-4 response readings
-- analog value conversion
-- battery percentage conversion
-- pressure reading checks
-- threshold tuning
+### Calibration includes:
+- MQ-4 sensor calibration
+- analog reading conversion
+- battery percentage scaling
+- pressure sensor tuning
+- threshold refinement
 
 ### Testing includes:
-- ESP-NOW communication test
-- gas sensor response test
-- valve relay switching test
-- LCD display verification
-- Blynk dashboard verification
-- ThingSpeak chart verification
+- ESP-NOW transmission test
+- sensor response test
+- valve relay control test
+- LCD display validation
+- Blynk dashboard validation
+- ThingSpeak chart validation
 - web dashboard validation
-- integration testing of full system
+- full system integration testing
 
-### Testing media included
-- testing photos
-- testing videos
-- sensor reading graphs
-- calibration calculations
-
-This is important because a safety system must not only compile correctly, but must also behave correctly in real-world conditions.
+Testing is essential because this is not just a display project; it is a functional safety system.
 
 ---
 
-## Results
+## Google Drive Folder Structure
 
-The project successfully demonstrates:
+All project media is stored in Google Drive under the main folder:
 
-- real-time gas monitoring
-- environmental condition monitoring
-- dual-node wireless communication
-- automatic safety response
-- local and remote visualization
-- battery health monitoring
-- local LCD feedback
-- browser dashboard access
-- mobile dashboard access
+### Main Folder
+**FYP Integrated Gas Safety And Environmental Monitoring System**  
+https://drive.google.com/drive/folders/1qoRRjSMr3AxVFJfdwFxN7i4svPKSzAJ0?usp=sharing
 
-The final system behaves as a complete intelligent safety solution for gas monitoring and automatic valve control.
+### Subfolders
 
----
-
-## Future Improvements
-
-Possible improvements for future versions:
-
-- GSM/SMS alert system
-- mobile notification system
-- data logging to a database
-- predictive gas fault analysis
-- improved sensor calibration
-- backup communication channel
-- battery backup optimization
-- mobile app customization
-- ML-based anomaly detection
-- enhanced safety logic with multi-level thresholds
+| # | Folder Name | Purpose | Link |
+|---|---|---|---|
+| 1 | 3D design | 3D design images | https://drive.google.com/drive/folders/1a-ou74HaFoO2cb0XY6JeKt5SdCkw9nBH?usp=drive_link |
+| 2 | circuit Diagrams | Circuit diagram image and block diagram | https://drive.google.com/drive/folders/1okalMdNHIgR-oY-KRBrf3GfIIlL36GDo?usp=drive_link |
+| 3 | ide codes file | Progress code and testing code | https://drive.google.com/drive/folders/1O6FngsWnx5p1srv9ZfYK_QDCpUeVaKr1?usp=drive_link |
+| 4 | sensor readings | Calculations, MQ4 readings, graphs | https://drive.google.com/drive/folders/1Qk3edBc7zWAkIAOWEmBwDjeRP-G4ZLgm?usp=drive_link |
+| 5 | testing | Testing videos and validation clips | https://drive.google.com/drive/folders/1f_4miGLQI4njrcyTFYYqaW-ftAAy9DdG?usp=drive_link |
+| 6 | user interface | LCD, ThingSpeak, Blynk, dashboard screenshots | https://drive.google.com/drive/folders/1YT4PhAEFVFfvxUDPXqQrAAtMaPTvx_2Z?usp=drive_link |
+| 7 | Videos | General, progress, and testing videos | https://drive.google.com/drive/folders/1DP63bxwnZB5VqDh7ueS1oHErNVnSuDIe?usp=drive_link |
+| 8 | Receipts | Hardware purchase receipts | https://drive.google.com/drive/folders/11QaqAA37UPZ6ohal6bNkEqetNfZ9b-C4?usp=drive_link |
 
 ---
 
-## Conclusion
+## Repository Folder Structure
 
-The **Integrated Gas Safety and Environmental Monitoring System** is a complete IoT-based smart safety project designed to monitor gas leakage and environmental conditions while protecting the system through automatic valve control.
+A clean GitHub structure for this project is recommended below:
 
-It combines:
-- ESP8266 microcontrollers
-- ESP-NOW communication
-- Wi-Fi connectivity
-- Blynk
-- ThingSpeak
-- LittleFS
-- LCD display
-- Web dashboard
-- Relay-based valve automation
-
-The final result is a professional and practical embedded system that is suitable for a university Final Year Project and also strong enough to present in a portfolio.
-
----
-
-## Project Media Links
-
-### Google Drive Folder
-[View Project Media Folder](https://drive.google.com/drive/folders/1qoRRjSMr3AxVFJfdwFxN7i4svPKSzAJ0?usp=sharing)
-
----
-
-## Author
-
-**Anees**  
-Final Year Project  
-Integrated Gas Safety and Environmental Monitoring System
+```bash
+FYP-Integrated-Gas-Safety-and-Environmental-Monitoring-System/
+├── README.md
+├── code/
+│   ├── esp1-kitchen-node/
+│   ├── esp2-main-valve-node/
+│   ├── progress-1/
+│   ├── progress-2/
+│   ├── progress-3/
+│   ├── progress-4/
+│   └── testing-code/
+├── images/
+│   ├── 3d-design/
+│   ├── circuit-diagrams/
+│   ├── sensor-readings/
+│   ├── testing/
+│   └── user-interface/
+├── videos/
+│   ├── general/
+│   ├── progress/
+│   └── testing/
+├── receipts/
+└── docs/
+    └── project-notes/
